@@ -1,5 +1,7 @@
+from flask import jsonify
 import sqlite3
 import os
+
 
 caminho = f"{os.path.dirname(__file__)}\\db\\produtos.db"
 
@@ -66,8 +68,11 @@ def retornar_produto(id:int) -> tuple:
         cursor.execute(sql_select, (id, ))
         id, nome, descricao, preco, imagem = cursor.fetchone()
         
+        
+        produto ={'id':id, 'nome':nome, 'descricao':descricao, 'preco':preco, 'imagem':imagem}
         conn.close()
-        return {'id':id, 'nome':nome, 'descricao':descricao, 'preco':preco, 'imagem':imagem}
+        print(produto)
+        return jsonify(produto)
     except Exception as ex:
         print(ex)
         return False
@@ -89,7 +94,9 @@ def retornar_produtos() -> list:
             produto['preco'] = item[3]
             produto['imagem'] = item[4]
             produtos.append(produto)
-        return produtos
+            print(produtos)
+            print(type(produtos))   
+        return jsonify(produtos)
     except Exception as ex:
         print(ex)
         return False

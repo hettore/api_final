@@ -3,19 +3,16 @@ import repositorio
 
 app = Flask(__name__)
 
-
 @app.route("/products", methods=['GET'])
 def get_produtos():
     produtos = repositorio.retornar_produtos()
-    print(produtos)
-    print(type(produtos))
-    return jsonify(produtos), 200
+    return produtos, 200
 
 @app.route("/product/<int:id>", methods=['GET'])
 def get_produto(id):
     produto = repositorio.retornar_produto(id)
     if produto:
-        return jsonify(produto)
+        return produto
     else:
         return jsonify({"message": "Produto não encontrado"}), 404
 
